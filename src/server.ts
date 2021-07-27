@@ -1,16 +1,23 @@
-
 import * as Koa from 'koa';
-import * as Router from 'koa-router';
+import * as koaBody from 'koa-body'
 import { getConfig } from './config/configService';
+import initDB from './db/database';
+import router from './routes';
+
+initDB()
 
 const app = new Koa();
-const router = new Router();
 const port = getConfig('PORT')
 
-router.get('/', async (ctx) => {
-    ctx.body = 'Hello World!';
+// logger
+app.use(async (ctx, next) => {
+    // Log the request to the console
+    console.log('Url:', ctx.url);
+    // Pass the request to the next middleware function
+    await next();
 });
 
+app.use(koaBody());
 app.use(router.routes());
 
 app.listen(port);
