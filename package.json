@@ -1,0 +1,35 @@
+{
+  "name": "ganymede",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-server": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FeliIsra/Ganymede.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FeliIsra/Ganymede/issues"
+  },
+  "homepage": "https://github.com/FeliIsra/Ganymede#readme",
+  "dependencies": {
+    "koa": "^2.13.1",
+    "koa-router": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "@types/koa-router": "^7.4.4",
+    "dotenv": "^10.0.0",
+    "i": "^0.3.6",
+    "nodemon": "^2.0.12",
+    "npm": "^7.20.2",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
