@@ -1,4 +1,5 @@
 import * as Router from 'koa-router';
+import fetch from 'node-fetch'
 import { ProductSerachDTO } from '../models/productSearch/productSearchDTO';
 import { ISearchOrder } from '../models/searchOrder/searchOrder';
 import { createSearchOrder, findSearchOrder, findSearchOrderById } from '../services/orderService';
@@ -7,7 +8,17 @@ const productController = new Router();
 
 productController.post('/product/search', async (ctx) => {
 	const productSearch: ProductSerachDTO = ctx.request.body;
-	const response: ISearchOrder = createSearchOrder(productSearch)
+	const response: ISearchOrder = await createSearchOrder(productSearch)
+
+	fetch('http://localhost:3003/api/job', {
+		method: 'POST',
+		body: JSON.stringify({
+			"data": response
+		})
+	})
+ 		.then(res => res.text())
+  		.then(data => console.log(data));
+
 	ctx.body = response;
 });
 

@@ -17,7 +17,7 @@ app.use(async (ctx, next) => {
     await next();
 });
 
-//app.use(koaBody());
+app.use(koaBody());
 app.use(router.routes());
 
 app.listen(port);
