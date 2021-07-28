@@ -1,9 +1,10 @@
-import * as Router from 'koa-router';
+import Router = require("koa-router");
+import productController from "./controllers/product";
 
-const router = new Router();
-
-router.get('/', async (ctx) => {
-	ctx.body = 'Hello World!';
+const router = new Router({
+	prefix: '/api'
 });
+
+router.use(productController)
 
 export default router;

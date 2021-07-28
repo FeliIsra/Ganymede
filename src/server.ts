@@ -3,11 +3,11 @@ import * as koaBody from 'koa-body'
 import { getConfig } from './config/configService';
 import initDB from './db/database';
 import router from './routes';
+const port = getConfig('PORT')
 
 initDB()
 
 const app = new Koa();
-const port = getConfig('PORT')
 
 // logger
 app.use(async (ctx, next) => {
@@ -17,7 +17,7 @@ app.use(async (ctx, next) => {
     await next();
 });
 
-app.use(koaBody());
+//app.use(koaBody());
 app.use(router.routes());
 
 app.listen(port);
