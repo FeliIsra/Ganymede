@@ -1,29 +1,21 @@
 import * as Router from 'koa-router';
-import fetch from 'node-fetch'
+import { IProduct } from '../models/product/product';
 import { ProductSerachDTO } from '../models/productSearch/productSearchDTO';
 import { ISearchOrder } from '../models/searchOrder/searchOrder';
 import { createSearchOrder, findSearchOrder, findSearchOrderById } from '../services/orderService';
+import { findProductsByCategory } from '../services/productService';
 
 const productController = new Router();
 
 productController.post('/product/search', async (ctx) => {
 	const productSearch: ProductSerachDTO = ctx.request.body;
 	const response: ISearchOrder = await createSearchOrder(productSearch)
-
-	fetch('http://localhost:3003/api/job', {
-		method: 'POST',
-		body: JSON.stringify({
-			"data": response
-		})
-	})
- 		.then(res => res.text())
-  		.then(data => console.log(data));
-
 	ctx.body = response;
 });
 
 productController.get('/product/search-order/:orderId', async (ctx) => {
 	const orderId: string = ctx.params.orderId
+	console.log(orderId)
 	const response: ISearchOrder = await findSearchOrderById(orderId)
 	ctx.body = response;
 });
@@ -35,7 +27,8 @@ productController.get('/product/search-orders', async (ctx) => {
 
 productController.get('/product/category/:categoryId', async (ctx) => {
 	const categoryId: string = ctx.params.categoryId;
-	ctx.body = categoryId; 
+	const products: IProduct[] = await findProductsByCategory(categoryId)
+	ctx.body = products; 
 });
 
 export default productController.routes();

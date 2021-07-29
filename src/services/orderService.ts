@@ -1,12 +1,10 @@
 import { IProductSearch, ProductSearch } from "../models/productSearch/productSearch";
 import { ProductSerachDTO } from "../models/productSearch/productSearchDTO";
 import { ISearchOrder, SearchOrder } from '../models/searchOrder/searchOrder'
+import { sendJob } from "./jobService";
 
 
-export const createSearchOrder = (productSearch: ProductSerachDTO): ISearchOrder => {
-
-	// TODO: ir a buscar la data al otro servicio
-
+export const createSearchOrder = async (productSearch: ProductSerachDTO): Promise<ISearchOrder> => {
 	let newProductSearch = new ProductSearch({
 		query: productSearch.query,
 		provider: productSearch.provider,
@@ -14,25 +12,26 @@ export const createSearchOrder = (productSearch: ProductSerachDTO): ISearchOrder
 		password: productSearch.options?.password,
 		callbackUrl: productSearch.callbackUrl
 	})
-	newProductSearch.save((err: any, data: any) => {
+	await newProductSearch.save((err: any, data: any) => {
 		if(err) console.log(err)
-		console.log(data)
 		newProductSearch = data
 	})
 
 	let newSearchOrder = new SearchOrder({
 		searchData: newProductSearch.id,
 	})
-	newSearchOrder.save((err: any, data: any) => {
+	await newSearchOrder.save((err: any, data: any) => {
 		if(err) console.log(err)
-		console.log(data)
 		newSearchOrder = data
 	})
+
+	sendJob(newSearchOrder);
 
 	return newSearchOrder;
 }
 
 export const findSearchOrderById = async (orderId: string): Promise<ISearchOrder> => {
+	console.log('orderId', orderId)
 	const searchOrder: ISearchOrder = await SearchOrder
 		.findById(orderId)
 		.populate("searchData")
@@ -46,4 +45,8 @@ export const findSearchOrder = async (): Promise<ISearchOrder[]> => {
 		.populate("searchData")
 
 	return searchOrders;
+}
+
+export const updateSearchOrder = async (searchOrder: ISearchOrder) => {
+	return await new SearchOrder(searchOrder).save()
 }

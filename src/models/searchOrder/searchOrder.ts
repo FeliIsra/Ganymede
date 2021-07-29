@@ -3,11 +3,12 @@ import { ObjectId } from "mongodb";
 import { OrderStatus } from './enum/orderStatus';
 import { ProductSerachDTO } from '../productSearch/productSearchDTO';
 import { model } from 'mongoose';
+import { IProduct } from '../product/product';
 
 export interface ISearchOrder {
 	id?: string;
 	searchData: ProductSerachDTO;
-	productList: any; // TODO: tipar este campo
+	products: IProduct[];
 	orderStatus?: OrderStatus;
 }
 
@@ -18,11 +19,10 @@ const searchOrderSchema = new Schema<ISearchOrder>({
 		ref: "ProductSearch",
 		required: true
 	},
-	productList: {
-		type: Array,
-		default: [],
-		required: true
-	},
+	products: [{
+		type: ObjectId,
+		ref: "Product"
+	}],
 	orderStatus: {
 		type: String,
 		enum: OrderStatus,
