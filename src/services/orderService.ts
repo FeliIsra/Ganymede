@@ -1,5 +1,6 @@
-import { IProductSearch, ProductSearch } from "../models/productSearch/productSearch";
+import { ProductSearch } from "../models/productSearch/productSearch";
 import { ProductSerachDTO } from "../models/productSearch/productSearchDTO";
+import { OrderStatus } from "../models/searchOrder/enum/orderStatus";
 import { ISearchOrder, SearchOrder } from '../models/searchOrder/searchOrder'
 import { sendJob } from "./jobService";
 
@@ -26,6 +27,9 @@ export const createSearchOrder = async (productSearch: ProductSerachDTO): Promis
 	})
 
 	sendJob(newSearchOrder);
+
+	newSearchOrder.orderStatus = OrderStatus.PROCESSING;
+	await newSearchOrder.save()
 
 	return newSearchOrder;
 }

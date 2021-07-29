@@ -4,6 +4,7 @@ import { findSearchOrderById, updateSearchOrder } from "./orderService"
 import fetch from 'node-fetch'
 import { IProduct } from "../models/product/product"
 import { createProduct } from "./productService"
+import { OrderStatus } from "../models/searchOrder/enum/orderStatus"
 
 export const sendJob = (searchOrder: ISearchOrder) => {
 	const job = {
@@ -23,6 +24,7 @@ export const sendJob = (searchOrder: ISearchOrder) => {
 
 const handleJobResponse = async (data: any) => {
 	const jobResponse: IResponseJob = data
+	if(jobResponse.error) handleError(jobResponse)
 	const searchOrder: ISearchOrder = await findSearchOrderById(jobResponse.id)	
 	const products: IProduct[] = []
 	for await (const product of jobResponse.products) {
@@ -30,9 +32,14 @@ const handleJobResponse = async (data: any) => {
 		products.push(savedProduct)
 	}
 
-	
 	searchOrder.products = products
+	searchOrder.orderStatus = OrderStatus.FULFILLED
 	
-	console.log('searchOrder', searchOrder)
+	updateSearchOrder(searchOrder)
+}
+
+const handleError = async (jobResponse: IResponseJob) => {
+	const searchOrder: ISearchOrder = await findSearchOrderById(jobResponse.id)	
+	searchOrder.orderStatus = OrderStatus.FAILED
 	updateSearchOrder(searchOrder)
 }
