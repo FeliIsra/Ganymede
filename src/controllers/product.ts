@@ -15,7 +15,6 @@ productController.post('/product/search', async (ctx) => {
 
 productController.get('/product/search-order/:orderId', async (ctx) => {
 	const orderId: string = ctx.params.orderId
-	console.log(orderId)
 	const response: ISearchOrder = await findSearchOrderById(orderId)
 	ctx.body = response;
 });

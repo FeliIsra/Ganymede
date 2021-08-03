@@ -19,8 +19,9 @@ export const createSearchOrder = async (productSearch: ProductSerachDTO): Promis
 	})
 
 	let newSearchOrder = new SearchOrder({
-		searchData: newProductSearch.id,
+		searchData: newProductSearch,
 	})
+
 	await newSearchOrder.save((err: any, data: any) => {
 		if(err) console.log(err)
 		newSearchOrder = data
@@ -28,14 +29,14 @@ export const createSearchOrder = async (productSearch: ProductSerachDTO): Promis
 
 	sendJob(newSearchOrder);
 
-	newSearchOrder.orderStatus = OrderStatus.PROCESSING;
-	await newSearchOrder.save()
+	newSearchOrder.updateOne({
+		orderStatus: OrderStatus.PROCESSING
+	})
 
 	return newSearchOrder;
 }
 
 export const findSearchOrderById = async (orderId: string): Promise<ISearchOrder> => {
-	console.log('orderId', orderId)
 	const searchOrder: ISearchOrder = await SearchOrder
 		.findById(orderId)
 		.populate("searchData")

@@ -1,7 +1,6 @@
 import { ICategory } from "../models/product/category";
 import { IProduct, Product } from "../models/product/product";
 import { findCategoryById, findCategoryByNameOrCreate } from "./categoryService";
-import { ObjectId } from "mongodb";
 
 export const createProduct = async (product: IProduct): Promise<IProduct> => {
 	const category: ICategory = await findCategoryByNameOrCreate(product.category.name)

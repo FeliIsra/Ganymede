@@ -18,13 +18,17 @@ export const sendJob = (searchOrder: ISearchOrder) => {
 			"data":	job
 		})
 	})
- 		.then(async res => JSON.parse(await res.text()).message)
+ 		.then(async res => JSON.parse(await res.text()))
   		.then(data => handleJobResponse(data))
 }
 
 const handleJobResponse = async (data: any) => {
-	const jobResponse: IResponseJob = data
-	if(jobResponse.error) handleError(jobResponse)
+	if(data.status === 'Error') {
+		await handleError(data.message)
+		return
+	}
+
+	const jobResponse: IResponseJob = data.message
 	const searchOrder: ISearchOrder = await findSearchOrderById(jobResponse.id)	
 	const products: IProduct[] = []
 	for await (const product of jobResponse.products) {
@@ -35,11 +39,11 @@ const handleJobResponse = async (data: any) => {
 	searchOrder.products = products
 	searchOrder.orderStatus = OrderStatus.FULFILLED
 	
-	updateSearchOrder(searchOrder)
+	await updateSearchOrder(searchOrder)
 }
 
-const handleError = async (jobResponse: IResponseJob) => {
-	const searchOrder: ISearchOrder = await findSearchOrderById(jobResponse.id)	
+const handleError = async (id: string) => {
+	const searchOrder: ISearchOrder = await findSearchOrderById(id)	
 	searchOrder.orderStatus = OrderStatus.FAILED
-	updateSearchOrder(searchOrder)
+	await updateSearchOrder(searchOrder)
 }

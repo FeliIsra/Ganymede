@@ -5,7 +5,8 @@ import { ICategory } from './category';
 export interface IProduct {
 	sku?: string;
 	name: string;
-	originalPrice: number;
+	price: string;
+	originalPrice: string;
 	category: ICategory;
 	description?: string;
 	images: string[];
@@ -14,12 +15,20 @@ export interface IProduct {
 
 const Schema = mongoose.Schema;
 const productSchema = new Schema<IProduct>({
+	sku: {
+		type: String,
+		required: true
+	},
 	name: {
 		type: String,
 		required: true
 	},
+	price: {
+		type: String,
+		required: true
+	},
 	originalPrice: {
-		type: Number,
+		type: String,
 		required: true
 	},
 	category: {
