@@ -16,7 +16,7 @@ export const sendJob = (searchOrder: ISearchOrder) => {
 		searchData: searchOrder.searchData,
 	}
 
-	fetch('http://localhost:3003/api/job', {
+	fetch(getConfig('THEMISTO') + 'api/job', {
 		method: 'POST',
 		headers: {
 			password: CryptoJS.AES.encrypt(getConfig('PASS'), getConfig('SECRET')).toString() 
