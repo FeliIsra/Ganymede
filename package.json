@@ -26,14 +26,14 @@
     "koa-body": "^4.2.0",
     "koa-router": "^10.0.0",
     "mongoose": "^5.13.3",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
     "@types/koa-router": "^7.4.4",
     "@types/mongoose": "^5.11.97",
     "@types/node-fetch": "^2.5.12",
-    "dotenv": "^10.0.0",
     "i": "^0.3.6",
     "nodemon": "^2.0.12",
     "npm": "^7.20.2",
