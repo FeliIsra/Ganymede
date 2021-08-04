@@ -1,7 +1,14 @@
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 
-const envConfig = dotenv.parse(fs.readFileSync('.env'));
+let envConfig: dotenv.DotenvParseOutput;
+
+try{
+	envConfig = dotenv.parse(fs.readFileSync('.env'));
+
+} catch (e) {
+	console.log(e)
+}
 
 
 export const getConfig = (key: string): string => {
