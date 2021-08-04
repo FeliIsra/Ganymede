@@ -20,6 +20,7 @@ app.use(async (ctx, next) => {
 app.use(koaBody());
 app.use(router.routes());
 
-app.listen(port);
+const server = app.listen(port);
+server.timeout=5*60*1000
 
 console.log(`Server running on port ${port}`);
