@@ -1,6 +1,6 @@
 import { IResponseJob } from "../models/job/job"
 import { ISearchOrder } from "../models/searchOrder/searchOrder"
-import { findSearchOrderById, updateSearchOrder } from "./orderService"
+import { findSearchOrderById, sendOrderToCallBack, updateSearchOrder } from "./orderService"
 import fetch from 'node-fetch'
 import { IProduct } from "../models/product/product"
 import { createProduct } from "./productService"
@@ -62,16 +62,4 @@ const handleError = async (id: string) => {
 	const searchOrder: ISearchOrder = await findSearchOrderById(id)	
 	searchOrder.orderStatus = OrderStatus.FAILED
 	await updateSearchOrder(searchOrder)
-}
-
-const sendOrderToCallBack = (searchOrder: ISearchOrder) => {
-	fetch(searchOrder.searchData.callbackUrl, {
-		method: 'POST',
-		body: JSON.stringify({
-			"data": searchOrder	
-		})
-	})
-		.then(response => response.json())
-		.then(data => console.log(data))
-		.catch(error => console.log(error));
 }
