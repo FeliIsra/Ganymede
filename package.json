@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/FeliIsra/Ganymede#readme",
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "koa": "^2.13.1",
     "koa-body": "^4.2.0",
     "koa-router": "^10.0.0",
