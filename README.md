@@ -1,5 +1,5 @@
 # Ganymede
-Hi there! This is Ganymede, a NodeJs service developed with Typescript that allows web crawling in certain providers such as [Easy] (Easy.com.ar) and [Meli] (Mercadolibre.com.ar)
+Hi there! This is Ganymede, a NodeJs service developed with Typescript that allows web crawling in certain providers such as [Easy](Easy.com.ar) and [Meli](Mercadolibre.com.ar)
 
 ## How can we do it?
 Ganymede exposes a REST API with 4 endpoints so that you can communicate with the service. This same one has database persistence in MongoDB.
