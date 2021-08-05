@@ -53,8 +53,6 @@ const handleJobResponse = async (data: any) => {
 	
 	await updateSearchOrder(searchOrder)
 
-	console.log('searchOrder', searchOrder)
-
 	sendOrderToCallBack(searchOrder)
 }
 
